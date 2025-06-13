@@ -2,10 +2,10 @@
 class Database {
     private static $instance = null;
     private $conn;
-    private $host = 'localhost';
-    private $db_name = 'dbstorage23360859455';
-    private $username = 'dbusr23360859455';
-    private $password = 'Y9bPjtQ9GjkY';
+    private $host = '';
+    private $db_name = '';
+    private $username = '';
+    private $password = '';
     public function __construct() {
         try {
             $this->conn = new PDO(
