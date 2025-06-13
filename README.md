@@ -2,7 +2,7 @@
 
 Modern ve güvenli bir etkinlik yönetim sistemi.
 
-## 🌟 Özellikler
+## Özellikler
 
 ### Kullanıcı Yönetimi
 - Güvenli kayıt ve giriş sistemi
@@ -19,16 +19,7 @@ Modern ve güvenli bir etkinlik yönetim sistemi.
 - Etkinlik katılımcı yönetimi
 - Etkinlik kontenjan kontrolü
 
-### Kullanıcı Arayüzü
-- Responsive tasarım
-- Modern ve kullanıcı dostu arayüz
-- Bootstrap 5 framework
-- Font Awesome ikonları
-- Dinamik form validasyonu
-- Modal dialoglar
-- Toast bildirimleri
-
-## 📁 Dizin Yapısı
+## Dizin Yapısı
 
 ```
 ├── config/                 # Yapılandırma dosyaları
@@ -54,7 +45,7 @@ Modern ve güvenli bir etkinlik yönetim sistemi.
 └── README.md          # Bu dosya
 ```
 
-## 📝 Kullanım
+## Kullanım
 
 ### Etkinlik Oluşturma
 1. Giriş yapın
