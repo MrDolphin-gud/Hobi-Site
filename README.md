@@ -19,32 +19,6 @@ Modern ve güvenli bir etkinlik yönetim sistemi.
 - Etkinlik katılımcı yönetimi
 - Etkinlik kontenjan kontrolü
 
-## Dizin Yapısı
-
-```
-├── config/                 # Yapılandırma dosyaları
-│   ├── database.php       # Veritabanı bağlantısı
-│   ├── config.php         # Genel ayarlar
-│   ├── mail.php          # E-posta ayarları
-│   └── Session.php       # Oturum yönetimi
-├── models/                # Veritabanı modelleri
-│   ├── Etkinlik.php      # Etkinlik işlemleri
-│   ├── Kategori.php      # Kategori işlemleri
-│   └── Kullanici.php     # Kullanıcı işlemleri
-├── uploads/              # Yüklenen dosyalar
-│   └── etkinlikler/     # Etkinlik görselleri
-├── assets/              # Statik dosyalar
-│   ├── css/            # Stil dosyaları
-│   ├── js/             # JavaScript dosyaları
-│   └── img/            # Görseller
-├── includes/           # Yardımcı fonksiyonlar
-├── index.php          # Ana sayfa
-├── etkinlikler.php    # Etkinlik listesi
-├── etkinlik_ekle.php  # Etkinlik oluşturma
-├── etkinlik_detay.php # Etkinlik detayları
-└── README.md          # Bu dosya
-```
-
 ## Kullanım
 
 ### Etkinlik Oluşturma
