@@ -44,26 +44,7 @@ Modern ve kapsamlı bir hobi yönetim platformu. Kullanıcılar hobilerini payla
 - Konum bazlı etkinlik arama
 - Etkinlik değerlendirme ve yorumlar
 - Etkinlik fotoğraf galerisi
-
-### Güvenlik Özellikleri
-- CSRF token koruması
-- XSS koruması
-- SQL injection koruması
-- Güvenli şifre hashleme
-- Oturum güvenliği
-- Input validasyonu
-- Güvenli dosya yükleme
-
-### Kullanıcı Arayüzü
-- Responsive tasarım
-- Modern ve kullanıcı dostu arayüz
-- Bootstrap 5 framework
-- Font Awesome ikonları
-- Dinamik form validasyonu
-- Modal dialoglar
-- Toast bildirimleri
-- Gelişmiş arama ve filtreleme
-
+- 
 ## Kullanım
 
 ### Hobi Profili Oluşturma
