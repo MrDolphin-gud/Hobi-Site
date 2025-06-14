@@ -85,5 +85,8 @@ Modern ve kapsamlı bir hobi yönetim platformu. Kullanıcılar hobilerini payla
    - Konum
    - Kontenjan
    - Açıklama
+
+# Proje Videosu
+https://youtu.be/dukyXug2Jko
    - Görsel
 3. "Oluştur" butonuna tıklayın
