@@ -1,4 +1,4 @@
-# Etkinlik Yönetim Sistemi
+# Hobi Yönetim Sistemi
 
 Modern ve güvenli bir etkinlik yönetim sistemi.
 
