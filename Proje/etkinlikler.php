@@ -3,7 +3,6 @@ require_once 'includes/header.php';
 require_once 'models/Etkinlik.php';
 // Oturum kontrolü
 Session::oturumKontrol();
-
 $etkinlik = new Etkinlik();
 $etkinlikler = $etkinlik->tumEtkinlikleriGetir();
 ?>
@@ -69,7 +68,6 @@ $etkinlikler = $etkinlik->tumEtkinlikleriGetir();
         </div>
     </div>
 </div>
-
 <script>
 function etkinlikSil(id, csrfToken) {
     if (confirm('Bu etkinliği silmek istediğinizden emin misiniz?')) {
