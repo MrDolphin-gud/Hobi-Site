@@ -3,31 +3,26 @@ require_once 'config/database.php';
 require_once 'config/Session.php';
 require_once 'models/Etkinlik.php';
 require_once 'models/Kategori.php';
-
-// Session başlat
+// Sesion başlat
 Session::baslat();
 // Oturum kontrolü
 Session::oturumKontrol();
-
 if (!isset($_GET['id'])) {
     header('Location: index.php');
     exit;
 }
-
 $etkinlik = new Etkinlik();
 $etkinlik_bilgi = $etkinlik->etkinlikGetir($_GET['id']);
 if (!$etkinlik_bilgi) {
     header('Location: index.php');
     exit;
 }
-
 $katilimcilar = $etkinlik->katilimcilarGetir($_GET['id']);
 $katilimci_sayisi = count($katilimcilar);
 $kullanici_id = Session::kullaniciBilgisiAl('kullanici_id');
 $katilimci_mi = isset($kullanici_id) ? $etkinlik->katilimciKontrol($_GET['id'], $kullanici_id) : false;
 $hata = '';
 $basarili = '';
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($kullanici_id)) {
     // CSRF token kontrolü
     if (!isset($_POST['csrf_token']) || !Session::csrfTokenKontrol($_POST['csrf_token'])) {
