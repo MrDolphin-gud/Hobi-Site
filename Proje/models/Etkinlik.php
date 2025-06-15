@@ -1,13 +1,10 @@
 <?php
 require_once __DIR__ . '/../config/database.php';
-
 class Etkinlik {
     private $db;
-
     public function __construct() {
         $this->db = Database::getInstance()->getConnection();
     }
-
     public function tumEtkinlikleriGetir() {
         $query = "SELECT e.*, k.ad as kategori_adi, k.ikon as kategori_ikon, 
                         u.kullanici_adi, 
@@ -21,7 +18,6 @@ class Etkinlik {
         $stmt->execute();
         return $stmt->fetchAll();
     }
-
     public function etkinlikGetir($id) {
         $query = "SELECT e.*, k.ad as kategori_adi, k.ikon as kategori_ikon, 
                         u.kullanici_adi, 
@@ -35,7 +31,6 @@ class Etkinlik {
         $stmt->execute([$id]);
         return $stmt->fetch();
     }
-
     public function etkinlikEkle($baslik, $aciklama, $tarih, $konum, $kisi_limit, $kullanici_id, $kategori_id) {
         $query = "INSERT INTO etkinlikler (baslik, aciklama, tarih, konum, kisi_limit, kullanici_id, kategori_id, olusturma_tarihi) 
                  VALUES (?, ?, ?, ?, ?, ?, ?, NOW())";
@@ -43,7 +38,6 @@ class Etkinlik {
         $stmt = $this->db->prepare($query);
         return $stmt->execute([$baslik, $aciklama, $tarih, $konum, $kisi_limit, $kullanici_id, $kategori_id]);
     }
-
     public function etkinlikGuncelle($id, $baslik, $aciklama, $tarih, $konum, $kisi_limit, $kategori_id) {
         $query = "UPDATE etkinlikler 
                  SET baslik = ?, aciklama = ?, tarih = ?, konum = ?, kisi_limit = ?, kategori_id = ? 
@@ -52,19 +46,16 @@ class Etkinlik {
         $stmt = $this->db->prepare($query);
         return $stmt->execute([$baslik, $aciklama, $tarih, $konum, $kisi_limit, $kategori_id, $id]);
     }
-
     public function etkinlikSil($id) {
         // Önce katılımcıları sil
         $query = "DELETE FROM etkinlik_katilimcilar WHERE etkinlik_id = ?";
         $stmt = $this->db->prepare($query);
         $stmt->execute([$id]);
-
         // Sonra etkinliği sil
         $query = "DELETE FROM etkinlikler WHERE id = ?";
         $stmt = $this->db->prepare($query);
         return $stmt->execute([$id]);
     }
-
     public function katilimciEkle($etkinlik_id, $kullanici_id) {
         // Etkinlik kapasitesi kontrolü
         $etkinlik = $this->etkinlikGetir($etkinlik_id);
@@ -73,19 +64,15 @@ class Etkinlik {
         if ($etkinlik['kisi_limit'] > 0 && $kayitli_kisi >= $etkinlik['kisi_limit']) {
             return false;
         }
-
         // Katılımcı zaten var mı kontrolü
         if ($this->katilimciKontrol($etkinlik_id, $kullanici_id)) {
             return false;
         }
-
         $query = "INSERT INTO etkinlik_katilimcilar (etkinlik_id, kullanici_id, katilim_tarihi) 
                  VALUES (?, ?, NOW())";
-        
         $stmt = $this->db->prepare($query);
         return $stmt->execute([$etkinlik_id, $kullanici_id]);
     }
-
     public function katilimciSil($etkinlik_id, $kullanici_id) {
         $query = "DELETE FROM etkinlik_katilimcilar 
                  WHERE etkinlik_id = ? AND kullanici_id = ?";
@@ -93,7 +80,6 @@ class Etkinlik {
         $stmt = $this->db->prepare($query);
         return $stmt->execute([$etkinlik_id, $kullanici_id]);
     }
-
     public function katilimcilarGetir($etkinlik_id) {
         $query = "SELECT k.*, ek.katilim_tarihi
                  FROM etkinlik_katilimcilar ek
@@ -105,7 +91,6 @@ class Etkinlik {
         $stmt->execute([$etkinlik_id]);
         return $stmt->fetchAll();
     }
-
     public function katilimciKontrol($etkinlik_id, $kullanici_id) {
         $query = "SELECT COUNT(*) FROM etkinlik_katilimcilar 
                  WHERE etkinlik_id = ? AND kullanici_id = ?";
@@ -114,14 +99,12 @@ class Etkinlik {
         $stmt->execute([$etkinlik_id, $kullanici_id]);
         return $stmt->fetchColumn() > 0;
     }
-
     public function katilimciSayisiGetir($etkinlik_id) {
         $query = "SELECT COUNT(*) FROM etkinlik_katilimcilar WHERE etkinlik_id = ?";
         $stmt = $this->db->prepare($query);
         $stmt->execute([$etkinlik_id]);
         return $stmt->fetchColumn();
     }
-
     public function kategoriEtkinlikleriGetir($kategori_id) {
         $query = "SELECT e.*, k.ad as kategori_adi, k.ikon as kategori_ikon, 
                         u.kullanici_adi, 
@@ -136,7 +119,6 @@ class Etkinlik {
         $stmt->execute([$kategori_id]);
         return $stmt->fetchAll();
     }
-
     public function kullaniciEtkinlikleriGetir($kullanici_id) {
         $query = "SELECT e.*, k.ad as kategori_adi, k.ikon as kategori_ikon, 
                         u.kullanici_adi, 
@@ -151,7 +133,6 @@ class Etkinlik {
         $stmt->execute([$kullanici_id]);
         return $stmt->fetchAll();
     }
-
     public function kullaniciKatilimEtkinlikleriGetir($kullanici_id) {
         $query = "SELECT e.*, k.ad as kategori_adi, k.ikon as kategori_ikon, 
                         u.kullanici_adi, ek.katilim_tarihi,
@@ -162,7 +143,6 @@ class Etkinlik {
                  LEFT JOIN kullanicilar u ON e.kullanici_id = u.id
                  WHERE ek.kullanici_id = ?
                  ORDER BY e.tarih DESC";
-        
         $stmt = $this->db->prepare($query);
         $stmt->execute([$kullanici_id]);
         return $stmt->fetchAll();
