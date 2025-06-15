@@ -2,7 +2,6 @@
 require_once 'config/database.php';
 require_once 'config/Session.php';
 require_once 'models/Etkinlik.php';
-
 // Session başlat
 Session::baslat();
 // Oturum kontrolü
@@ -52,13 +51,11 @@ try {
     $stmt->execute();
     $db->commit();
     $_SESSION['mesaj'] = "Etkinlik başarıyla silindi.";
-    
 } catch (Exception $e) {
     $db->rollBack();
     error_log("Etkinlik silme hatası: " . $e->getMessage());
     $_SESSION['hata'] = "Etkinlik silinirken bir hata oluştu: " . $e->getMessage();
 }
-
 header("Location: etkinlikler.php");
 exit();
 ?> 
