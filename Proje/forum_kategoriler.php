@@ -1,7 +1,6 @@
 <?php
 require_once 'config/database.php';
 require_once 'config/Session.php';
-
 Session::oturumKontrol();
 $db = Database::getInstance()->getConnection();
 $mesaj = '';
@@ -69,7 +68,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['sil'])) {
         Session::csrfTokenKontrol($_POST['csrf_token']);
         $kategori_id = (int)$_POST['kategori_id'];   
         $db->beginTransaction();
-        
         // Önce bu kategoriye ait konuları kontrol et
         $stmt = $db->prepare("SELECT COUNT(*) as konu_sayisi, 
                              (SELECT GROUP_CONCAT(baslik SEPARATOR ', ') 
@@ -87,7 +85,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['sil'])) {
                           'Son konular: ' . $konu_bilgisi['son_konular'] : '';
             throw new Exception("Bu kategoriye ait {$konu_bilgisi['konu_sayisi']} konu bulunuyor. " . $son_konular);
         }
-        
         // Alt kategorileri kontrol et
         $stmt = $db->prepare("SELECT COUNT(*) as alt_kategori_sayisi,
                              (SELECT GROUP_CONCAT(ad SEPARATOR ', ') 
@@ -99,13 +96,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['sil'])) {
         $stmt->bindParam(':kategori_id', $kategori_id);
         $stmt->execute();
         $alt_kategori_bilgisi = $stmt->fetch(PDO::FETCH_ASSOC);
-        
         if ($alt_kategori_bilgisi['alt_kategori_sayisi'] > 0) {
             $alt_kategoriler = $alt_kategori_bilgisi['alt_kategoriler'] ? 
                               'Alt kategoriler: ' . $alt_kategori_bilgisi['alt_kategoriler'] : '';
             throw new Exception("Bu kategoriye ait {$alt_kategori_bilgisi['alt_kategori_sayisi']} alt kategori bulunuyor. " . $alt_kategoriler);
         }
-        
         // Kategoriyi sil
         $stmt = $db->prepare("DELETE FROM forum_kategorileri WHERE id = :id");
         $stmt->bindParam(':id', $kategori_id);
@@ -118,12 +113,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['sil'])) {
         $hata = 'Bir hata oluştu: ' . $e->getMessage();
     }
 }
-
 try {
     // Hobi kategorilerini getir
     $stmt = $db->query("SELECT * FROM hobi_kategorileri ORDER BY ad");
     $hobi_kategorileri = $stmt->fetchAll();
-
     // Forum kategorilerini getir
     $stmt = $db->query("SELECT f.*, h.ad as hobi_adi,
                        (SELECT COUNT(*) FROM forum_konulari WHERE kategori_id = f.id) as konu_sayisi
