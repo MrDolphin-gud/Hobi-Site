@@ -6,7 +6,6 @@ $db = Database::getInstance()->getConnection();
 // Kategori filtresi
 $kategori_id = isset($_GET['kategori']) ? (int)$_GET['kategori'] : 0;
 $secilen_kategori = $kategori_id; // Seçili kategoriyi sakla
-
 // Forum kategorilerini getir
 $stmt = $db->prepare("SELECT f.*, h.ad as hobi_adi, 
                      (SELECT COUNT(*) FROM forum_konulari WHERE kategori_id = f.id) as konu_sayisi
