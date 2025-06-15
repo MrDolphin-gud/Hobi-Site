@@ -13,37 +13,29 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['konu_id']) && isset($_
         Session::csrfTokenKontrol($_POST['csrf_token']);
         $konu_id = (int)$_POST['konu_id'];
         $db->beginTransaction();
-        
         // Önce konunun kullanıcıya ait olup olmadığını kontrol et
         $stmt = $db->prepare("SELECT id, baslik FROM forum_konulari WHERE id = :id AND kullanici_id = :kullanici_id");
         $stmt->bindParam(':id', $konu_id);
         $stmt->bindParam(':kullanici_id', $kullanici_id);
         $stmt->execute();
-        
         if ($stmt->rowCount() == 0) {
             throw new Exception('Bu konuyu silme yetkiniz yok.');
         }
-        
         $konu = $stmt->fetch();
-        
         // Yorum sayısını kontrol et
         $stmt = $db->prepare("SELECT COUNT(*) FROM forum_yorumlari WHERE konu_id = :konu_id");
         $stmt->bindParam(':konu_id', $konu_id);
         $stmt->execute();
         $yorum_sayisi = $stmt->fetchColumn();
-        
         if ($yorum_sayisi > 0) {
             throw new Exception("Bu konuya {$yorum_sayisi} yorum yapılmış. Önce yorumları silmelisiniz.");
         }
-        
         // Konuyu sil
         $stmt = $db->prepare("DELETE FROM forum_konulari WHERE id = :id");
         $stmt->bindParam(':id', $konu_id);
         $stmt->execute();
-        
         $db->commit();
         $mesaj = 'Konu başarıyla silindi.';
-        
     } catch (Exception $e) {
         $db->rollBack();
         $hata = 'Bir hata oluştu: ' . $e->getMessage();
