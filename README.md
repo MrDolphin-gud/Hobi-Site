@@ -30,7 +30,6 @@ Modern ve kapsamlı bir hobi yönetim platformu. Kullanıcılar hobilerini payla
 ### Forum Sistemi
 - Kategori bazlı forum yapısı
 - Konu açma ve yanıtlama
-- Zengin metin editörü
 - Dosya ve görsel paylaşımı
 - Beğeni ve yorum sistemi
 - Forum moderasyonu
@@ -41,10 +40,8 @@ Modern ve kapsamlı bir hobi yönetim platformu. Kullanıcılar hobilerini payla
 - Etkinlik detayları ve planlama
 - Katılımcı yönetimi
 - Etkinlik takvimi
-- Konum bazlı etkinlik arama
 - Etkinlik değerlendirme ve yorumlar
-- Etkinlik fotoğraf galerisi
-- 
+
 ## Kullanım
 
 ### Hobi Profili Oluşturma
