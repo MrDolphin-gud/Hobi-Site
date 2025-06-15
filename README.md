@@ -88,5 +88,12 @@ Modern ve kapsamlı bir hobi yönetim platformu. Kullanıcılar hobilerini payla
    - Görsel
 3. "Oluştur" butonuna tıklayın
 
+## Ekran Görüntüleri
+
+![image](https://github.com/user-attachments/assets/d80fca12-eaa8-44b7-acee-db071e17de4a)
+![image](https://github.com/user-attachments/assets/b73673ab-d03d-419d-a268-3612bcea44c6)
+![image](https://github.com/user-attachments/assets/56540cd7-dc0e-4c67-be5e-948735d13ad2)
+![image](https://github.com/user-attachments/assets/b086328f-98a4-4c5d-b54f-b6b454ecedb0)
+
 # Proje Videosu
 https://youtu.be/dukyXug2Jko
