@@ -1,7 +1,6 @@
 <?php
 require_once 'config/database.php';
 require_once 'config/Session.php';
-
 Session::oturumKontrol();
 $db = Database::getInstance()->getConnection();
 $kullanici_id = Session::kullaniciBilgisiAl('kullanici_id');
@@ -13,15 +12,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['talep_id'], $_POST['du
         Session::csrfTokenKontrol($_POST['csrf_token']);
         $talep_id = (int)$_POST['talep_id'];
         $yeni_durum = $_POST['durum'];
-        
         // Geçerli durum kontrolü
         $gecerli_durumlar = ['onaylandi', 'reddedildi', 'tamamlandi', 'iptal'];
         if (!in_array($yeni_durum, $gecerli_durumlar)) {
             throw new Exception('Geçersiz durum değeri.');
         }
-        
         $db->beginTransaction();
-        
         // Talebin mevcut durumunu ve yetkiyi kontrol et
         $stmt = $db->prepare("SELECT o.*, e.durum as ekipman_durum 
                              FROM ekipman_odunc o 
@@ -31,35 +27,27 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['talep_id'], $_POST['du
         $stmt->bindParam(':id', $talep_id);
         $stmt->bindParam(':kullanici_id', $kullanici_id);
         $stmt->execute();
-        
         if ($stmt->rowCount() == 0) {
             throw new Exception('Bu talebi güncelleme yetkiniz yok.');
         }
-        
         $talep = $stmt->fetch();
-        
         // Durum değişikliği kontrolleri
         if ($yeni_durum == 'onaylandi' && $talep['odunc_veren_id'] != $kullanici_id) {
             throw new Exception('Sadece ekipman sahibi onaylayabilir.');
         }
-        
         if ($yeni_durum == 'tamamlandi' && $talep['odunc_alan_id'] != $kullanici_id) {
             throw new Exception('Sadece ödünç alan kişi tamamlandı olarak işaretleyebilir.');
         }
-        
         if ($yeni_durum == 'iptal' && $talep['odunc_alan_id'] != $kullanici_id) {
             throw new Exception('Sadece ödünç alan kişi talebi iptal edebilir.');
         }
-        
         // Talebi güncelle
         $stmt = $db->prepare("UPDATE ekipman_odunc SET durum = :durum WHERE id = :id");
         $stmt->bindParam(':durum', $yeni_durum);
         $stmt->bindParam(':id', $talep_id);
-        
         if (!$stmt->execute()) {
             throw new Exception('Talep güncellenirken bir hata oluştu.');
         }
-        
         // Ekipman durumunu güncelle
         if ($yeni_durum == 'onaylandi') {
             $stmt = $db->prepare("UPDATE ekipmanlar SET durum = 'ödünç_verildi' WHERE id = :ekipman_id");
@@ -70,10 +58,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['talep_id'], $_POST['du
             $stmt->bindParam(':ekipman_id', $talep['ekipman_id']);
             $stmt->execute();
         }
-        
         $db->commit();
         $mesaj = 'Talep durumu başarıyla güncellendi.';
-        
     } catch (Exception $e) {
         $db->rollBack();
         $hata = 'Bir hata oluştu: ' . $e->getMessage();
